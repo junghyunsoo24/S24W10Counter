@@ -13,10 +13,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ac.kumoh.s20191091.s24w10counter.ui.theme.S24W10CounterTheme
 
@@ -35,8 +37,41 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Clicker(Modifier.padding(innerPadding))
+//        Clicker(Modifier.padding(innerPadding))
+        Counter(Modifier.padding(innerPadding))
+
     }
+}
+
+@Composable
+fun Counter(modifier: Modifier){
+//    var count = 0;
+    val (count, setCount) = remember { mutableIntStateOf(0) }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text(
+            text = "$count",
+            fontSize = 100.sp
+        )
+        Button(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            onClick = {
+                //count++
+                setCount(count + 1)
+            }
+        ){
+            Text(
+                "증가",
+                fontSize = 30.sp
+            )
+        }
+    }
+    //list를 만들때 jetpackCompose가 바인딩보다 훨신 편함
+
 }
 
 @Composable
