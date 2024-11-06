@@ -57,6 +57,7 @@ fun Counter(modifier: Modifier){
             text = "$count",
             fontSize = 100.sp
         )
+
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             onClick = {
@@ -66,6 +67,32 @@ fun Counter(modifier: Modifier){
         ){
             Text(
                 "증가",
+                fontSize = 30.sp
+            )
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth().padding((16.dp)),
+            onClick = {
+                if(count > 0) {
+                    setCount(count - 1)
+                }
+            }
+        ){
+            Text(
+                "감소",
+                fontSize = 30.sp
+            )
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth().padding((16.dp)),
+            onClick = {
+                setCount(0)
+            }
+        ){
+            Text(
+                "초기화",
                 fontSize = 30.sp
             )
         }
