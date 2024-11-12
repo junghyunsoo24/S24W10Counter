@@ -39,6 +39,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
+    val (count, setCount) = rememberSaveable { mutableIntStateOf(0) }
+    val (expanded, setExpanded) = rememberSaveable{mutableStateOf(false)}
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 //        Column(
 //            modifier = Modifier.padding(innerPadding).fillMaxSize(),
@@ -48,17 +51,24 @@ fun MainScreen() {
 //            Counter()
 //        }
 //        Clicker(Modifier.padding(innerPadding))
-        Counter(Modifier.padding(innerPadding))
+        Counter(Modifier.padding(innerPadding), count, setCount, expanded, setExpanded)
 
     }
 }
 
 @Composable
-fun Counter(modifier: Modifier = Modifier){
-//    var count = 0;
-    val (count, setCount) = rememberSaveable { mutableIntStateOf(0) }
-    val (expanded, setExpanded) = rememberSaveable{mutableStateOf(false)}
+fun Counter(
+    modifier: Modifier = Modifier,
+    count: Int,
+    onChangeCount: (Int)-> Unit,
+    expanded: Boolean,
+    onChangeExpanded: (Boolean)-> Unit){
     //data는 뷰모델로 따로 빼는게 좋기 때문에 rememberable은 안쓰는게 좋음
+    //remember쓰면 상태관리를 하는거임->상태는 호출하는 곳에서 가지는게(끌어올리는게) 좋음
+    //->stateHoisting(무조건 정답은 아님)
+    //SRP, SOLID, losellyCoupled, UDF, DI, IOC, DOC
+    //눈에 보이는 View, 눈에 보이지 않는 Model를 연결하는게 ViewModel
+    //expanded는 굳이 안올려도됨
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -73,9 +83,8 @@ fun Counter(modifier: Modifier = Modifier){
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             onClick = {
-                //count++
-                setCount(count + 1)
-                setExpanded(false)
+                onChangeCount(count + 1)
+                onChangeExpanded(false)
             }
         ) {
             Text(
@@ -87,7 +96,8 @@ fun Counter(modifier: Modifier = Modifier){
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             onClick = {
-                setExpanded(true)
+                onChangeExpanded(true)
+//                setExpanded(true)
             }
         ) {
             Text(
@@ -102,9 +112,9 @@ fun Counter(modifier: Modifier = Modifier){
                     modifier = Modifier.padding(16.dp).weight(1F),
                     onClick = {
                         if (count > 0) {
-                            setCount(count - 1)
+                            onChangeCount(count - 1)
                         }
-                        setExpanded(false)
+                        onChangeExpanded(false)
                     }
                 ) {
                     Text(
@@ -116,8 +126,8 @@ fun Counter(modifier: Modifier = Modifier){
                 Button(
                     modifier = Modifier.padding(16.dp).weight(1F),
                     onClick = {
-                        setCount(0)
-                        setExpanded(false)
+                        onChangeCount(0)
+                        onChangeExpanded(false)
                     }
                 ) {
                     Text(
