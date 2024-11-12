@@ -39,20 +39,27 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Column(
+            modifier = Modifier.padding(innerPadding).fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceEvenly,
+        ){
+            Counter()
+            Counter()
+        }
 //        Clicker(Modifier.padding(innerPadding))
-        Counter(Modifier.padding(innerPadding))
+//        Counter(Modifier.padding(innerPadding))
 
     }
 }
 
 @Composable
-fun Counter(modifier: Modifier){
+fun Counter(modifier: Modifier = Modifier){
 //    var count = 0;
     val (count, setCount) = remember { mutableIntStateOf(0) }
     val (expanded, setExpanded) = remember{mutableStateOf(false)}
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
