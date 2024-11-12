@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -39,15 +40,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding).fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly,
-        ){
-            Counter()
-            Counter()
-        }
+//        Column(
+//            modifier = Modifier.padding(innerPadding).fillMaxSize(),
+//            verticalArrangement = Arrangement.SpaceEvenly,
+//        ){
+//            Counter()
+//            Counter()
+//        }
 //        Clicker(Modifier.padding(innerPadding))
-//        Counter(Modifier.padding(innerPadding))
+        Counter(Modifier.padding(innerPadding))
 
     }
 }
@@ -55,8 +56,9 @@ fun MainScreen() {
 @Composable
 fun Counter(modifier: Modifier = Modifier){
 //    var count = 0;
-    val (count, setCount) = remember { mutableIntStateOf(0) }
-    val (expanded, setExpanded) = remember{mutableStateOf(false)}
+    val (count, setCount) = rememberSaveable { mutableIntStateOf(0) }
+    val (expanded, setExpanded) = rememberSaveable{mutableStateOf(false)}
+    //data는 뷰모델로 따로 빼는게 좋기 때문에 rememberable은 안쓰는게 좋음
 
     Column(
         modifier = Modifier.fillMaxWidth(),
