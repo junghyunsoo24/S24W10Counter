@@ -24,25 +24,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kr.ac.kumoh.s20191091.s24w10counter.ui.theme.S24W10CounterTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val vm = ViewModelProvider(this)[CounterViewModel::class.java]
+//        val vm = ViewModelProvider(this)[CounterViewModel::class.java]
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             S24W10CounterTheme {
-                MainScreen(vm)
+                MainScreen()
             }
         }
     }
 }
 
 @Composable
-fun MainScreen(viewModel: CounterViewModel) {
+//fun MainScreen() {
+fun MainScreen(viewModel: CounterViewModel = viewModel()){
+//    val viewModel: CounterViewModel = viewModel()
+
     val count by viewModel.count.observeAsState(0)
     val (expanded, setExpanded) = rememberSaveable{mutableStateOf(false)}
 
@@ -55,11 +58,17 @@ fun MainScreen(viewModel: CounterViewModel) {
     //            Counter()
     //        }
 //        Clicker(Modifier.padding(innerPadding))
-        Counter(Modifier.padding(innerPadding), count,
-            { viewModel.onAdd() },
-            { viewModel.onSub() },
-            { viewModel.onReset() }, expanded, setExpanded)
-
+        Column(
+            modifier = Modifier.padding(innerPadding)
+        ){
+            Counter(Modifier.padding(innerPadding),
+                count,
+                { viewModel.onAdd() },
+                { viewModel.onSub() },
+                { viewModel.onReset() },
+                expanded,
+                setExpanded)
+        }
     }
 }
 
